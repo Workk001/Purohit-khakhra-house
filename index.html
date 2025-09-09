@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purohit Khakhra House</title>
+    <meta name="description" content="Discover the finest handcrafted khakhra and namkeen made with traditional recipes and premium ingredients. Experience authentic Gujarati flavors.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌶️</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Purohit Khakhra House</span>
+                <div class="logo-accent"></div>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#products" class="nav-link">Products</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#craft" class="nav-link">Our Craft</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-cta">
+                <button class="btn-primary">Order Now</button>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <!-- Hero Slider -->
+        <div class="hero-slider" id="hero-slider">
+            <div class="slider-container">
+                <div class="slide active" data-slide="1">
+                    <div class="slide-background" style="background-image: url('');"></div>
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <h2 class="slide-title"></h2>
+                        <p class="slide-description"></p>
+                    </div>
+                </div>
+                
+                <div class="slide" data-slide="2">
+                    <div class="slide-background" style="background-image: url('');"></div>
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <h2 class="slide-title"></h2>
+                        <p class="slide-description"></p>
+                    </div>
+                </div>
+                
+                <div class="slide" data-slide="3">
+                    <div class="slide-background" style="background-image: url('');"></div>
+                    <div class="slide-overlay"></div>
+                    <div class="slide-content">
+                        <h2 class="slide-title"></h2>
+                        <p class="slide-description"></p>
+                    </div>
+                </div>
+                
+                <div class="slide" data-slide="4">
+                   
+                </div>
+            </div>
+            
+            <!-- Slider Controls -->
+            <div class="slider-controls">
+                <button class="slider-btn prev-btn" id="prev-slide">‹</button>
+                <button class="slider-btn next-btn" id="next-slide">›</button>
+            </div>
+            
+            <!-- Slider Indicators -->
+            <div class="slider-indicators">
+                <button class="indicator active" data-slide="1"></button>
+                <button class="indicator" data-slide="2"></button>
+                <button class="indicator" data-slide="3"></button>
+                <button class="indicator" data-slide="4"></button>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-line">Handcrafted</span>
+                    <span class="title-line">Khakhra &</span>
+                    <span class="title-line accent">Namkeen</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Experience the authentic taste of Gujarat with our premium, 
+                    traditionally crafted snacks made from the finest ingredients.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn-primary btn-large">
+                        <span>Explore Products</span>
+                        <div class="btn-shine"></div>
+                    </button>
+                    <button class="btn-secondary btn-large">
+                        <span>Watch Our Shop</span>
+                        <div class="play-icon">▶</div>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="hero-3d-container">
+                    <div class="khakhra-3d" id="khakhra-3d">
+                        <div class="khakhra-disk"></div>
+                        <div class="khakhra-glow"></div>
+                        <div class="spice-particles">
+                            <div class="spice spice-1"></div>
+                            <div class="spice spice-2"></div>
+                            <div class="spice spice-3"></div>
+                            <div class="spice spice-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-scroll">
+            <div class="scroll-indicator">
+                <div class="scroll-line"></div>
+                <span>Scroll to explore</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Premium Collection</h2>
+                <p class="section-subtitle">Carefully curated selection of traditional and modern flavors</p>
+            </div>
+            
+            <div class="product-filters">
+                <button class="filter-btn active" data-filter="all">All Products</button>
+                <button class="filter-btn" data-filter="khakhra">Khakhra</button>
+                <button class="filter-btn" data-filter="namkeen">Namkeen</button>
+                <button class="filter-btn" data-filter="sweets">Sweets</button>
+                <button class="filter-btn" data-filter="gift">Gift Boxes</button>
+            </div>
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Craft Section -->
+    <section class="craft" id="craft">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Artisanal Process</h2>
+                <p class="section-subtitle">From farm to your table, every step is crafted with love</p>
+            </div>
+            
+            <div class="craft-timeline">
+                <div class="timeline-item" data-step="1">
+                    <div class="timeline-icon">
+                        <div class="icon-bg"></div>
+                        <span class="icon">🌾</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Premium Ingredients</h3>
+                        <p>We source the finest whole grains, spices, and oils from trusted local farmers.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-step="2">
+                    <div class="timeline-icon">
+                        <div class="icon-bg"></div>
+                        <span class="icon">🔥</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Traditional Roasting</h3>
+                        <p>Slow-roasted to perfection using time-honored techniques passed down through generations.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-step="3">
+                    <div class="timeline-icon">
+                        <div class="icon-bg"></div>
+                        <span class="icon">👨‍🍳</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Hand Seasoning</h3>
+                        <p>Each batch is carefully seasoned by our master craftsmen for the perfect flavor balance.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-step="4">
+                    <div class="timeline-icon">
+                        <div class="icon-bg"></div>
+                        <span class="icon">📦</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Fresh Packaging</h3>
+                        <p>Sealed immediately to preserve freshness and delivered to you at peak quality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Shop Gallery</h2>
+                <p class="section-subtitle">Take a virtual tour of our traditional khakhra making process</p>
+            </div>
+            
+            <div class="gallery-filters">
+                <button class="gallery-filter-btn active" data-filter="all">All</button>
+                <button class="gallery-filter-btn" data-filter="shop">Shop</button>
+                <button class="gallery-filter-btn" data-filter="products">Products</button>
+
+            </div>
+            
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Gallery items will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">A Legacy of Flavor</h2>
+                    <p class="about-description">
+                        For over five years, we've been perfecting the art of traditional Gujarati snacks. 
+                        Our family recipe has been passed down through generations, ensuring every bite 
+                        carries the authentic taste of home.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label">Years of Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-label">Happy Customers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Natural Ingredients</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="about-image-container">
+                        <div class="image-placeholder">
+                            <div class="image-overlay"></div>
+                            <span class="image-text">Traditional Craftsmanship</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Ready to experience the authentic taste? Contact us today!</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>Visit Our Store</h3>
+                            <p>Near Hindustan Petrolpump, Sumerpur<br>Pali, Rajasthan, India 306119</p>
+                            <button class="btn-secondary btn-small" onclick="openMap()">
+                                <span>📍</span> View on Map
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h3>Call Us</h3>
+                            <p>+91 98765 43210<br>+91 98765 43211</p>
+                            <div class="contact-buttons">
+                                <button class="btn-primary btn-small" onclick="callNumber('+919876543210')">
+                                    <span>📞</span> Call Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-details">
+                            <h3>WhatsApp</h3>
+                            <p>Quick orders & inquiries<br>Available 9 AM - 9 PM</p>
+                            <div class="contact-buttons">
+                                <button class="btn-whatsapp btn-small" onclick="openWhatsApp()">
+                                    <span>💬</span> WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Map -->
+                <div class="map-container">
+                    <div class="map-header">
+                        <h3>Find Us Here</h3>
+                        <p>Visit our shop near Hindustan Petrolpump in Sumerpur</p>
+                    </div>
+                    <div class="map-wrapper">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d356.30380240408664!2d73.07512343869679!3d25.152945068321525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3942ed07e70614fb%3A0xd318f4e9fc56d197!2sGujrat%20Famous%20Food!5e0!3m2!1sen!2sin!4v1757161855333!5m2!1sen!2sin"
+                            width="100%" 
+                            height="300" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <!-- <div class="contact-form">
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email Address">
+                        </div>
+                        <div class="form-group">
+                            <select id="interest" name="interest">
+                                <option value="">What interests you?</option>
+                                <option value="khakhra">Khakhra</option>
+                                <option value="namkeen">Namkeen</option>
+                                <option value="sweets">Sweets</option>
+                                <option value="bulk">Bulk Orders</option>
+                                <option value="gift">Gift Boxes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary btn-full">
+                            <span>Send Message</span>
+                            <div class="btn-shine"></div>
+                        </button>
+                    </form>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="logo-text">Purohit Khakhra House</span>
+                        <div class="logo-accent"></div>
+                    </div>
+                    <p class="footer-description">
+                        Bringing you the authentic taste of Gujarat with every bite.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Products</h4>
+                        <a href="#products">Khakhra</a>
+                        <a href="#products">Namkeen</a>
+                        <a href="#products">Sweets</a>
+                        <a href="#products">Gift Boxes</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#about">About Us</a>
+                        <a href="#craft">Our Craft</a>
+                        <a href="#contact">Contact</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <a href="#">Instagram</a>
+                        <a href="#">Facebook</a>
+                        <a href="#">WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Map -->
+            <div class="footer-map">
+                <div class="footer-map-header">
+                    <h4>Visit Our Shop</h4>
+                    <p>Near Hindustan Petrolpump, Sumerpur, Pali, Rajasthan</p>
+                </div>
+               
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Purohit Khakhra House. All rights reserved.</p>
+                <p>Made with ❤️ in Sumerpur, Rajasthan, India</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <span class="logo-text">Khakhra House</span>
+                <div class="logo-accent"></div>
+            </div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
