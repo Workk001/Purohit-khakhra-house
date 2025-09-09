@@ -1,4 +1,4 @@
-# 🌶️ SpiceCraft - Premium Khakhra & Namkeen Brochure Website
+# 🌶️ Purohit khakhra house - Premium Khakhra & Namkeen Brochure Website
 
 A modern, classy brochure website for a khakhra & namkeen brand featuring Maang-level UI/UX design with 3D micro-animations and premium aesthetics.
 
