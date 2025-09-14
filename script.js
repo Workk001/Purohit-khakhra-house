@@ -43,9 +43,35 @@ class SpiceCraftWebsite {
         const navMenu = document.getElementById('nav-menu');
         
         if (navToggle && navMenu) {
-            navToggle.addEventListener('click', () => {
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 navToggle.classList.toggle('active');
                 navMenu.classList.toggle('active');
+                
+                // Prevent body scroll when menu is open
+                if (navMenu.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
             });
         }
 
@@ -53,8 +79,11 @@ class SpiceCraftWebsite {
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
+                if (navMenu && navToggle) {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
             });
         });
 
@@ -174,21 +203,32 @@ class SpiceCraftWebsite {
         // Touch support for mobile
         let touchStartX = 0;
         let touchStartY = 0;
+        let isTouching = false;
 
         element.addEventListener('touchstart', (e) => {
+            isTouching = true;
             const touch = e.touches[0];
             touchStartX = touch.clientX;
             touchStartY = touch.clientY;
+            element.style.transition = 'none';
         });
 
         element.addEventListener('touchmove', (e) => {
+            if (!isTouching) return;
             e.preventDefault();
             const touch = e.touches[0];
             const deltaX = touch.clientX - touchStartX;
             const deltaY = touch.clientY - touchStartY;
             
-            targetRotationY = deltaX * 0.5;
-            targetRotationX = -deltaY * 0.5;
+            targetRotationY = deltaX * 0.3; // Reduced sensitivity for mobile
+            targetRotationX = -deltaY * 0.3;
+        });
+
+        element.addEventListener('touchend', () => {
+            isTouching = false;
+            targetRotationX = 0;
+            targetRotationY = 0;
+            element.style.transition = 'transform 0.5s ease-out';
         });
     }
 
@@ -197,22 +237,9 @@ class SpiceCraftWebsite {
         
         productCards.forEach(card => {
             let isHovered = false;
-            let rotationX = 0;
-            let rotationY = 0;
+            let animationId = null;
 
-            card.addEventListener('mouseenter', () => {
-                isHovered = true;
-                card.style.transition = 'none';
-            });
-
-            card.addEventListener('mouseleave', () => {
-                isHovered = false;
-                card.style.transition = 'all 0.3s ease-out';
-                rotationX = 0;
-                rotationY = 0;
-            });
-
-            card.addEventListener('mousemove', (e) => {
+            const handleMouseMove = (e) => {
                 if (!isHovered) return;
 
                 const rect = card.getBoundingClientRect();
@@ -222,11 +249,28 @@ class SpiceCraftWebsite {
                 const mouseX = e.clientX - centerX;
                 const mouseY = e.clientY - centerY;
                 
-                rotationY = (mouseX / rect.width) * 15;
-                rotationX = -(mouseY / rect.height) * 15;
+                const rotationY = (mouseX / rect.width) * 15;
+                const rotationX = -(mouseY / rect.height) * 15;
                 
-                card.style.transform = `perspective(1000px) rotateX(${rotationX}deg) rotateY(${rotationY}deg) translateZ(20px)`;
+                if (animationId) cancelAnimationFrame(animationId);
+                animationId = requestAnimationFrame(() => {
+                    card.style.transform = `perspective(1000px) rotateX(${rotationX}deg) rotateY(${rotationY}deg) translateZ(20px)`;
+                });
+            };
+
+            card.addEventListener('mouseenter', () => {
+                isHovered = true;
+                card.style.transition = 'none';
             });
+
+            card.addEventListener('mouseleave', () => {
+                isHovered = false;
+                card.style.transition = 'all 0.3s ease-out';
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                if (animationId) cancelAnimationFrame(animationId);
+            });
+
+            card.addEventListener('mousemove', handleMouseMove);
         });
     }
 
@@ -308,7 +352,7 @@ class SpiceCraftWebsite {
                 description: "Traditional fenugreek flavored crispy flatbread",
                 price: "₹120",
                 category: "khakhra",
-                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop"
+                image: "https://via.placeholder.com/400x300/F2A900/FFFFFF?text=Methi+Khakhra"
             },
             {
                 id: 2,
@@ -316,7 +360,7 @@ class SpiceCraftWebsite {
                 description: "Cumin spiced crispy delight with a kick",
                 price: "₹110",
                 category: "khakhra",
-                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop"
+                image: "https://via.placeholder.com/400x300/E67E22/FFFFFF?text=Jeera+Khakhra"
             },
             {
                 id: 3,
@@ -324,31 +368,23 @@ class SpiceCraftWebsite {
                 description: "Assorted savory snacks with traditional flavors",
                 price: "₹180",
                 category: "namkeen",
-                image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop"
+                image: "https://via.placeholder.com/400x300/16697A/FFFFFF?text=Namkeen+Mix"
             },
             {
                 id: 4,
-                name: "Sweet Jalebi",
-                description: "Crispy golden spirals soaked in sugar syrup",
-                price: "₹150",
-                category: "sweets",
-                image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop"
-            },
-            {
-                id: 5,
                 name: "Festival Gift Box",
                 description: "Premium assortment for special occasions",
                 price: "₹500",
                 category: "gift",
-                image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop"
+                image: "https://via.placeholder.com/400x300/8E44AD/FFFFFF?text=Gift+Box"
             },
             {
-                id: 6,
+                id: 5,
                 name: "Masala Khakhra",
                 description: "Spiced with traditional Gujarati masala blend",
                 price: "₹130",
                 category: "khakhra",
-                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop"
+                image: "https://via.placeholder.com/400x300/E74C3C/FFFFFF?text=Masala+Khakhra"
             }
         ];
 
@@ -423,35 +459,29 @@ class SpiceCraftWebsite {
         });
     }
 
-    openWhatsAppForProduct(productCard) {
-        const phoneNumber = '919876543210'; // Your WhatsApp number
-        const productName = productCard.querySelector('.product-title').textContent;
-        const productPrice = productCard.querySelector('.product-price').textContent;
+    // Centralized WhatsApp function
+    openWhatsApp(message = '', productName = '') {
+        const phoneNumber = '919116968850';
+        const defaultMessage = 'Hello! I am interested in your khakhra and namkeen products. Can you please provide more information?';
+        const finalMessage = message || defaultMessage;
         
-        const message = `Hello! I am interested in your ${productName} (${productPrice}). Can you please provide more information about availability and delivery?`;
-        
-        // Create WhatsApp link
-        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        
-        // Open in new tab
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(finalMessage)}`;
         window.open(whatsappLink, '_blank');
         
-        // Show feedback
-        this.showNotification(`Opening WhatsApp for ${productName}...`, 'success');
+        const notificationMessage = productName ? `Opening WhatsApp for ${productName}...` : 'Opening WhatsApp...';
+        this.showNotification(notificationMessage, 'success');
+    }
+
+    openWhatsAppForProduct(productCard) {
+        const productName = productCard.querySelector('.product-title').textContent;
+        const productPrice = productCard.querySelector('.product-price').textContent;
+        const message = `Hello! I am interested in your ${productName} (${productPrice}). Can you please provide more information about availability and delivery?`;
+        
+        this.openWhatsApp(message, productName);
     }
 
     openWhatsAppForGeneral() {
-        const phoneNumber = '919876543210'; // Your WhatsApp number
-        const message = 'Hello! I am interested in your khakhra and namkeen products. Can you please provide more information about your products and pricing?';
-        
-        // Create WhatsApp link
-        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        
-        // Open in new tab
-        window.open(whatsappLink, '_blank');
-        
-        // Show feedback
-        this.showNotification('Opening WhatsApp...', 'success');
+        this.openWhatsApp();
     }
 
     showNotification(message, type = 'info') {
@@ -506,30 +536,31 @@ class SpiceCraftWebsite {
         const galleryGrid = document.getElementById('gallery-grid');
         const filterButtons = document.querySelectorAll('.gallery-filter-btn');
         
-        // Sample gallery data with external links
-        const galleryItems = [
+        // Gallery data - organized by category (stored globally for reuse)
+        window.galleryData = [
+            // Shop Images
             {
                 id: 1,
                 title: "Our Traditional Shop",
                 description: "The heart of our khakhra making process",
-                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600&h=400&fit=crop",
-                type: "shop",
+                image: "https://ik.imagekit.io/warriordc/IMG_0560.jpeg?updatedAt=1757863363256",
+                type: "image",
                 category: "shop"
             },
+            // Process Images
             {
                 id: 2,
                 title: "Fresh Khakhra Making",
                 description: "Watch our artisans craft the perfect khakhra",
-                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop",
-                video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-                type: "video",
+                image: "https://ik.imagekit.io/warriordc/IMG_0562.jpeg?updatedAt=1757863360991",
+                type: "image",
                 category: "process"
             },
             {
                 id: 3,
                 title: "Premium Ingredients",
                 description: "Finest spices and grains for authentic taste",
-                image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop",
+                image: "https://ik.imagekit.io/warriordc/IMG_0559.jpeg?updatedAt=1757863364624",
                 type: "image",
                 category: "process"
             },
@@ -537,15 +568,16 @@ class SpiceCraftWebsite {
                 id: 4,
                 title: "Traditional Roasting",
                 description: "Slow-roasted to perfection using age-old techniques",
-                image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=400&fit=crop",
+                image: "https://ik.imagekit.io/warriordc/IMG_0566.jpeg?updatedAt=1757863363113",
                 type: "image",
                 category: "process"
             },
+            // Product Images
             {
                 id: 5,
                 title: "Fresh Khakhra Collection",
                 description: "Our daily fresh khakhra varieties",
-                image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=400&fit=crop",
+                image: "https://ik.imagekit.io/warriordc/IMG_0564.jpeg?updatedAt=1757863364555",
                 type: "image",
                 category: "products"
             },
@@ -553,39 +585,23 @@ class SpiceCraftWebsite {
                 id: 6,
                 title: "Namkeen Delights",
                 description: "Crispy and flavorful namkeen snacks",
-                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600&h=400&fit=crop",
+                image: "https://ik.imagekit.io/warriordc/IMG_0565.jpeg?updatedAt=1757863365011",
                 type: "image",
                 category: "products"
             },
+            // Customer Images
             {
                 id: 7,
                 title: "Happy Customer",
                 description: "Satisfied customer enjoying our khakhra",
-                image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop",
+                image: "https://ik.imagekit.io/warriordc/IMG_0563.jpeg?updatedAt=1757863365067",
                 type: "image",
                 category: "customers"
-            },
-            {
-                id: 8,
-                title: "Shop Interior",
-                description: "Warm and welcoming shop atmosphere",
-                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&h=400&fit=crop",
-                type: "image",
-                category: "shop"
-            },
-            {
-                id: 9,
-                title: "Making Process Video",
-                description: "Behind the scenes of our traditional process",
-                image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&h=400&fit=crop",
-                video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
-                type: "video",
-                category: "process"
             }
         ];
 
         // Render gallery items
-        const renderGallery = (filteredItems = galleryItems) => {
+        const renderGallery = (filteredItems = window.galleryData) => {
             if (galleryGrid) {
                 galleryGrid.innerHTML = filteredItems.map(item => `
                     <div class="gallery-item" data-category="${item.category}" onclick="openLightbox(${item.id})">
@@ -616,8 +632,8 @@ class SpiceCraftWebsite {
                 // Filter gallery items
                 const filter = button.dataset.filter;
                 const filteredItems = filter === 'all' 
-                    ? galleryItems 
-                    : galleryItems.filter(item => item.category === filter);
+                    ? window.galleryData 
+                    : window.galleryData.filter(item => item.category === filter);
 
                 // Animate out current items
                 const currentItems = galleryGrid.querySelectorAll('.gallery-item');
@@ -1019,8 +1035,9 @@ if ('IntersectionObserver' in window) {
 // Preload critical resources
 const preloadCriticalResources = () => {
     const criticalImages = [
-        'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=300&fit=crop',
-        'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop'
+        'https://ik.imagekit.io/warriordc/IMG_0560.jpeg?updatedAt=1757863363256',
+        'https://ik.imagekit.io/warriordc/IMG_0562.jpeg?updatedAt=1757863360991',
+        'https://ik.imagekit.io/warriordc/IMG_0564.jpeg?updatedAt=1757863364555'
     ];
     
     criticalImages.forEach(src => {
@@ -1088,83 +1105,8 @@ window.addEventListener('unhandledrejection', (e) => {
 
 // ===== GALLERY FUNCTIONS =====
 function openLightbox(itemId) {
-    // Sample gallery data (same as in setupGallery)
-    const galleryItems = [
-        {
-            id: 1,
-            title: "Our Traditional Shop",
-            description: "The heart of our khakhra making process",
-            image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&h=600&fit=crop",
-            type: "shop",
-            category: "shop"
-        },
-        {
-            id: 2,
-            title: "Fresh Khakhra Making",
-            description: "Watch our artisans craft the perfect khakhra",
-            image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop",
-            video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-            type: "video",
-            category: "process"
-        },
-        {
-            id: 3,
-            title: "Premium Ingredients",
-            description: "Finest spices and grains for authentic taste",
-            image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop",
-            type: "image",
-            category: "process"
-        },
-        {
-            id: 4,
-            title: "Traditional Roasting",
-            description: "Slow-roasted to perfection using age-old techniques",
-            image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-            type: "image",
-            category: "process"
-        },
-        {
-            id: 5,
-            title: "Fresh Khakhra Collection",
-            description: "Our daily fresh khakhra varieties",
-            image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&h=600&fit=crop",
-            type: "image",
-            category: "products"
-        },
-        {
-            id: 6,
-            title: "Namkeen Delights",
-            description: "Crispy and flavorful namkeen snacks",
-            image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&h=600&fit=crop",
-            type: "image",
-            category: "products"
-        },
-        {
-            id: 7,
-            title: "Happy Customer",
-            description: "Satisfied customer enjoying our khakhra",
-            image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop",
-            type: "image",
-            category: "customers"
-        },
-        {
-            id: 8,
-            title: "Shop Interior",
-            description: "Warm and welcoming shop atmosphere",
-            image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop",
-            type: "image",
-            category: "shop"
-        },
-        {
-            id: 9,
-            title: "Making Process Video",
-            description: "Behind the scenes of our traditional process",
-            image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=600&fit=crop",
-            video: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
-            type: "video",
-            category: "process"
-        }
-    ];
+    // Use the same gallery data as setupGallery to avoid duplication
+    const galleryItems = window.galleryData || [];
 
     const item = galleryItems.find(item => item.id === itemId);
     if (!item) return;
@@ -1174,13 +1116,13 @@ function openLightbox(itemId) {
     lightbox.className = 'lightbox';
     lightbox.innerHTML = `
         <div class="lightbox-content">
-            <button class="lightbox-close" onclick="closeLightbox()">×</button>
+            <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close lightbox">×</button>
             ${item.type === 'video' ? 
-                `<video class="lightbox-video" controls autoplay>
+                `<video class="lightbox-video" controls autoplay playsinline>
                     <source src="${item.video}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>` :
-                `<img src="${item.image}" alt="${item.title}" class="lightbox-image">`
+                `<img src="${item.image}" alt="${item.title}" class="lightbox-image" loading="lazy">`
             }
             <div class="lightbox-info">
                 <h3 class="lightbox-title">${item.title}</h3>
@@ -1237,37 +1179,7 @@ function callNumber(phoneNumber) {
     showNotification('Opening phone dialer...', 'success');
 }
 
-function openWhatsApp() {
-    const phoneNumber = '919876543210'; // Your WhatsApp number
-    const message = 'Hello! I am interested in your khakhra and namkeen products. Can you please provide more information?';
-    
-    // Create WhatsApp link
-    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
-    // Open in new tab
-    window.open(whatsappLink, '_blank');
-    
-    // Show feedback
-    showNotification('Opening WhatsApp...', 'success');
-}
-
-// WhatsApp function for specific products
-function openWhatsAppForProduct(productCard) {
-    const phoneNumber = '919876543210'; // Your WhatsApp number
-    const productName = productCard.querySelector('.product-title').textContent;
-    const productPrice = productCard.querySelector('.product-price').textContent;
-    
-    const message = `Hello! I am interested in your ${productName} (${productPrice}). Can you please provide more information about availability and delivery?`;
-    
-    // Create WhatsApp link
-    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
-    // Open in new tab
-    window.open(whatsappLink, '_blank');
-    
-    // Show feedback
-    showNotification(`Opening WhatsApp for ${productName}...`, 'success');
-}
+// WhatsApp functions are now centralized in the SpiceCraftWebsite class
 
 function openMap() {
     // Coordinates for Sumerpur, Pali, Rajasthan
